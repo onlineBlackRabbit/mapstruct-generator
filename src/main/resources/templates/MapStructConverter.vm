@@ -1,0 +1,40 @@
+package ${package};
+
+#if(${do})
+import ${do};
+#end
+#if(${dto})
+import ${dto};
+#end
+#if(${vo})
+import ${vo};
+#end
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
+/**
+* @author Losisco
+*
+*/
+@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+public interface ${className} {
+    ${className} INSTANCE = Mappers.getMapper( ${className}.class );
+
+#if(${dtoName} && ${doName})
+    ${dtoName} do2dto(${doName} doObj);
+#end
+
+#if(${doName} && ${dtoName})
+    ${doName} dto2do(${dtoName} dtoObj);
+#end
+
+#if(${dtoName} && ${voName})
+    ${dtoName} vo2dto(${voName} voObj);
+#end
+
+#if(${voName} && ${dtoName})
+    ${voName} dto2vo(${dtoName} dtoObj);
+#end
+}
