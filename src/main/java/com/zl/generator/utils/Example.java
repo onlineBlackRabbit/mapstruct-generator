@@ -26,6 +26,7 @@ public class Example {
         config.put("doName", "Car");
         config.put("dtoName", "CarDto");
         config.put("voName", "CarDto");
+        config.put("moduleName", "common");
         generator.generate(config);
     }
 
@@ -36,6 +37,7 @@ public class Example {
         config.put("voPath", "com.example.model");
         config.put("package", "com.example");
         config.put("override", "true");
+        config.put("moduleName", "common");
         generator.scanAndGenerate(config);
     }
 }

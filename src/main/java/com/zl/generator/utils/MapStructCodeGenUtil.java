@@ -3,10 +3,9 @@ package com.zl.generator.utils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -115,6 +114,7 @@ public class MapStructCodeGenUtil {
         VelocityEngine ve = initVelocityEngine();
         // 获取模板文件
         Template t = ve.getTemplate(separator + "templates" + separator + "MapStructConverter.vm", "UTF-8");
+//        Template t = ve.getTemplate(separator + "MapStructConverter.vm", "UTF-8");
         // 设置变量
         VelocityContext ctx = setVelocityContext(context);
         // 输出
@@ -127,9 +127,22 @@ public class MapStructCodeGenUtil {
      * @return
      */
     private VelocityEngine initVelocityEngine() {
-        VelocityEngine ve = new VelocityEngine();
-        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-        ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+        Properties p = new Properties();
+        URL location = MapStructCodeGenUtil.class.getProtectionDomain().getCodeSource().getLocation();//获得当前的URL
+        File file2 = new File(location.getPath());//构建指向当前URL的文件描述符
+        String root = file2.getAbsolutePath();
+        String path = "jar:file:/" + root;
+        System.out.println("jar path:" + path);
+        //设置velocity资源加载方式为jar
+        p.setProperty("resource.loader", "jar");
+        //设置velocity资源加载方式为file时的处理类
+        p.setProperty("jar.resource.loader.class", "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
+        //设置jar包所在的位置
+        p.setProperty("jar.resource.loader.path", path);
+        p.put("input.encoding", "UTF-8");
+        p.put("output.encoding", "UTF-8");
+
+        VelocityEngine ve = new VelocityEngine(p);
         ve.init();
         return ve;
     }
@@ -167,7 +180,7 @@ public class MapStructCodeGenUtil {
         String templateDir = templateDir(separator);
         String sourcePath = System.getProperty("user.dir") + templateDir;
         String resultDir = resultDir(separator);
-        String targetPath = targetPath(resultDir, packageName, separator);
+        String targetPath = targetPath(resultDir, packageName, separator, context);
 
 
         System.out.println("resultDir:" + resultDir);
@@ -204,10 +217,20 @@ public class MapStructCodeGenUtil {
         return separator + "src" + separator + "main" + separator + "java";
     }
 
-    private String targetPath(String resultDir, String packageName, String separator) {
-        return System.getProperty("user.dir")
-                + resultDir + separator
-                + packageName.replace(".", separator);
+    private String targetPath(String resultDir, String packageName, String separator, Map<String, String> context) {
+        String moduleName = context.get("moduleName");
+
+        if (moduleName == null || moduleName.length() <= 0) {
+            return System.getProperty("user.dir")
+                    + resultDir + separator
+                    + packageName.replace(".", separator);
+        } else {
+            return System.getProperty("user.dir")
+                    + separator + moduleName
+                    + resultDir + separator
+                    + packageName.replace(".", separator);
+        }
+
     }
 
     private boolean isNotOverride(String override) {
