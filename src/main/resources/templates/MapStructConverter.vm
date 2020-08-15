@@ -39,10 +39,10 @@ public interface ${className} {
 #end
 
 #if(${voName} && ${doName})
-    ${voName} dto2vo(${doName} dtoObj);
+    ${voName} do2vo(${doName} dtoObj);
 #end
 
 #if(${doName} && ${voName})
-    ${doName} dto2vo(${voName} dtoObj);
+    ${doName} vo2do(${voName} dtoObj);
 #end
 }
