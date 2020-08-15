@@ -41,7 +41,7 @@ mapstruct转换工具接口代码生成工具
 
    
 
-2. 下载jar包（https://gitee.com/Losisco/mapstruct-generator/releases）
+2. 下载jar包（https://github.com/onlineBlackRabbit/mapstruct-generator/releases）
 
 3. jar包放在resources/lib/目录下
 
