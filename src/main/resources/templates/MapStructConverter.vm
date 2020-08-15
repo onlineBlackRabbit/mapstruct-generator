@@ -37,4 +37,12 @@ public interface ${className} {
 #if(${voName} && ${dtoName})
     ${voName} dto2vo(${dtoName} dtoObj);
 #end
+
+#if(${voName} && ${doName})
+    ${voName} dto2vo(${doName} dtoObj);
+#end
+
+#if(${doName} && ${voName})
+    ${doName} dto2vo(${voName} dtoObj);
+#end
 }
