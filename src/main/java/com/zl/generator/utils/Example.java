@@ -27,6 +27,7 @@ public class Example {
         config.put("dtoName", "CarDto");
         config.put("voName", "CarDto");
         config.put("moduleName", "common");
+        config.put("clone", "true");
         generator.generate(config);
     }
 
@@ -38,6 +39,7 @@ public class Example {
         config.put("package", "com.example");
         config.put("override", "true");
         config.put("moduleName", "common");
+        config.put("clone", "true");
         generator.scanAndGenerate(config);
     }
 }

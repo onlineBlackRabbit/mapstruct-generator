@@ -1,11 +1,9 @@
 # mapstruct-generator
 
 #### 介绍
-
 mapstruct转换工具接口代码生成工具
 
 #### 软件架构
-
 软件架构说明
 
 
@@ -37,11 +35,17 @@ mapstruct转换工具接口代码生成工具
        <artifactId>velocity</artifactId>
        <version>1.7</version>
    </dependency>
+   
+   <dependency>
+       <groupId>com.alibaba</groupId>
+       <artifactId>fastjson</artifactId>
+       <version>1.2.73</version>
+   </dependency>
    ```
 
    
 
-2. 下载jar包（https://github.com/onlineBlackRabbit/mapstruct-generator/releases）
+2. 下载jar包（https://gitee.com/Losisco/mapstruct-generator/releases）
 
 3. jar包放在resources/lib/目录下
 
@@ -75,6 +79,7 @@ mapstruct转换工具接口代码生成工具
    config.put("dtoName", "CarDto");//dto名称
    config.put("voName", "CarDto");//vo名称
    config.put("override", "true");//是否覆盖已经存在的文件，默认不覆盖
+   config.put("clone", "true");//是否生成clone方法
    generator.generate(config);
    ```
 
@@ -88,39 +93,40 @@ mapstruct转换工具接口代码生成工具
    config.put("voPath", "com.example.model");//vo所在包路径
    config.put("package", "com.example");//生成代码所在包路径
    config.put("override", "true");//是否覆盖已经存在的文件，默认不覆盖
+   config.put("clone", "true");//是否生成clone方法
    generator.scanAndGenerate(config);
    ```
 
-6. 生成代码结果
+6.  生成代码结果
 
-   ```java
-   package com.example.car;
-   
-   import com.example.model.Car;
-   import com.example.model.CarDto;
-   import com.example.model.CarVo;
-   import org.mapstruct.Mapper;
-   import org.mapstruct.NullValuePropertyMappingStrategy;
-   import org.mapstruct.factory.Mappers;
-   
-   /**
-    * @author Losisco
-    */
-   @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-   public interface CarConverter {
-       CarConverter INSTANCE = Mappers.getMapper(CarConverter.class);
-   
-       CarDto do2dto(Car doObj);
-   
-       Car dto2do(CarDto dtoObj);
-   
-       CarDto vo2dto(CarVo voObj);
-   
-       CarVo dto2vo(CarDto dtoObj);
-   }
-   ```
+    ```java
+    package com.example.car;
+    
+    import com.example.model.Car;
+    import com.example.model.CarDto;
+    import com.example.model.CarVo;
+    import org.mapstruct.Mapper;
+    import org.mapstruct.NullValuePropertyMappingStrategy;
+    import org.mapstruct.factory.Mappers;
+    
+    /**
+     * @author Losisco
+     */
+    @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    public interface CarConverter {
+        CarConverter INSTANCE = Mappers.getMapper(CarConverter.class);
+    
+        CarDto do2dto(Car doObj);
+    
+        Car dto2do(CarDto dtoObj);
+    
+        CarDto vo2dto(CarVo voObj);
+    
+        CarVo dto2vo(CarDto dtoObj);
+    }
+    ```
 
-   
+    
 
 #### 参与贡献
 
@@ -128,3 +134,13 @@ mapstruct转换工具接口代码生成工具
 2.  新建 Feat_xxx 分支
 3.  提交代码
 4.  新建 Pull Request
+
+
+#### 码云特技
+
+1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
+2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
+3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
+4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
+5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
+6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)

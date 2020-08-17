@@ -166,6 +166,11 @@ public class MapStructCodeGenUtil {
         ctx.put("dtoName", context.get("dtoName"));
         ctx.put("voName", context.get("voName"));
 
+        String clone = context.get("clone");
+        if(clone != null && clone.equals("true")){
+            ctx.put("clone", clone);
+        }
+
         return ctx;
     }
 
