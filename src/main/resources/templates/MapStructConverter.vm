@@ -23,7 +23,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 *
 */
 @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface ${className} #if(${clone})<T, R> #end {
+public interface ${className} {
     ${className} INSTANCE = Mappers.getMapper( ${className}.class );
 
 #if(${dtoName} && ${doName})
@@ -51,11 +51,31 @@ public interface ${className} #if(${clone})<T, R> #end {
 #end
 
 #if(${clone})
-    default T clone(T target, R source) {
+#if(${doName})
+    default ${doName} clone(${doName} target, Object source) {
         JSONObject tar = JSON.parseObject(JSON.toJSONString(target));
         JSONObject src = JSON.parseObject(JSON.toJSONString(source));
         tar.putAll(src);
-        return (T) JSON.parseObject(JSON.toJSONString(tar));
+        return JSON.parseObject(JSON.toJSONString(tar),${doName}.class);
     }
+#end
+
+#if(${dtoName})
+    default ${dtoName} clone(${dtoName} target, Object source) {
+        JSONObject tar = JSON.parseObject(JSON.toJSONString(target));
+        JSONObject src = JSON.parseObject(JSON.toJSONString(source));
+        tar.putAll(src);
+        return JSON.parseObject(JSON.toJSONString(tar),${dtoName}.class);
+    }
+#end
+
+#if(${voName})
+    default ${voName} clone(${voName} target, Object source) {
+        JSONObject tar = JSON.parseObject(JSON.toJSONString(target));
+        JSONObject src = JSON.parseObject(JSON.toJSONString(source));
+        tar.putAll(src);
+        return JSON.parseObject(JSON.toJSONString(tar),${voName}.class);
+    }
+#end
 #end
 }
